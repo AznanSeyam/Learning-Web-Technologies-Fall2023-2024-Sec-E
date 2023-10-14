@@ -1,39 +1,22 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Form</title>
-</head>
-<body>
+<?php
 
-<form method="post" action="validate.php">
-    <fieldset>
-        <legend>REGISTRATION</legend>
-        Name: <input type="text" name="name"><br><hr>
+$name = $_REQUEST["name"] ?? "";
+$email = $_REQUEST["email"] ?? "";
+$username = $_REQUEST["username"] ?? "";
+$password = $_REQUEST["password"] ?? "";
+$confirmPassword = $_REQUEST["confirm_password"] ?? "";
+$gender = $_REQUEST["gender"] ?? "";
+$dob = $_REQUEST["dob"] ?? "";
 
-        Email: <input type="email" name="email"><br><hr>
-
-        User Name: <input type="text" name="username"><br><hr>
-
-        Password: <input type="password" name="password"><br><hr>
-
-        Confirm password: <input type="password" name="confirm_password"><br><hr>
-
-        <fieldset>
-            <legend>Gender</legend>
-            <input type="radio" name="gender" value="male"> Male
-            <input type="radio" name="gender" value="female"> Female
-            <input type="radio" name="gender" value="other"> Other <br>
-        </fieldset><br><hr>
-
-        <fieldset>
-            <legend>Date of Birth</legend>
-            <input type="date" name="dob"> <br>
-        </fieldset><br><hr>
-
-        <input type="submit" name="submit" value="Submit">
-        <input type="reset" name="reset" value="Reset">
-    </fieldset>
-</form>
-
-</body>
-</html>
+    if (empty($name) || empty($email) || empty($username) || empty($password) || empty($confirmPassword) || empty($gender) || empty($dob)) {
+        echo "All fields are required.";
+    } else {
+        if (strlen($password) < 8 || !preg_match("/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/", $password)) {
+            echo "Password must be at least 8 characters long and contain at least one letter and one number.";
+        } elseif ($password !== $confirmPassword) {
+            echo "Passwords do not match.";
+        } else {
+            echo "Form is validated.";
+        }
+    }
+?>
